@@ -40,6 +40,39 @@ export default function CategoryPage({ params }) {
   const isSubcategoryPage = !!sub && !child;
   const isCategoryPage = !!cat && !sub && !child;
 
+  // 🧠 Moved all hooks to top
+  const baseProducts = isChildPage
+    ? categoryService.getProductsByChild(catSlug, subSlug, childSlug)
+    : [];
+
+  const [selected, setSelected] = useState({
+    brands: (sp.get("brands") || "").split(",").filter(Boolean),
+    ratings: (sp.get("ratings") || "").split(",").map(Number).filter(Boolean),
+    price:
+      (sp.get("price") || "")
+        .split("-")
+        .map(Number)
+        .filter((n) => !isNaN(n)).length === 2
+        ? (sp.get("price") || "").split("-").map(Number)
+        : [],
+  });
+
+  const filtered = useMemo(
+    () =>
+      isChildPage ? categoryService.applyFilters(baseProducts, selected) : [],
+    [baseProducts, selected, isChildPage]
+  );
+
+  const onFilterChange = (next) => {
+    setSelected(next);
+    const q = new URLSearchParams();
+    if (next.brands?.length) q.set("brands", next.brands.join(","));
+    if (next.ratings?.length) q.set("ratings", next.ratings.join(","));
+    if (next.price?.length === 2)
+      q.set("price", `${next.price[0]}-${next.price[1]}`);
+    router.replace(`?${q.toString()}`);
+  };
+
   // =============== 1️⃣ PRODUCT DETAILS PAGE (PDP) ===============
   if (isProductPage) {
     const product = categoryService.getProductBySlug(productSlug);
@@ -139,39 +172,7 @@ export default function CategoryPage({ params }) {
 
   // =============== 4️⃣ CHILD CATEGORY (PLP) ===============
   if (isChildPage) {
-    const baseProducts = categoryService.getProductsByChild(
-      catSlug,
-      subSlug,
-      childSlug
-    );
     const filters = categoryService.deriveFilters(baseProducts);
-
-    const [selected, setSelected] = useState({
-      brands: (sp.get("brands") || "").split(",").filter(Boolean),
-      ratings: (sp.get("ratings") || "").split(",").map(Number).filter(Boolean),
-      price:
-        (sp.get("price") || "")
-          .split("-")
-          .map(Number)
-          .filter((n) => !isNaN(n)).length === 2
-          ? (sp.get("price") || "").split("-").map(Number)
-          : [],
-    });
-
-    const filtered = useMemo(
-      () => categoryService.applyFilters(baseProducts, selected),
-      [baseProducts, selected]
-    );
-
-    const onFilterChange = (next) => {
-      setSelected(next);
-      const q = new URLSearchParams();
-      if (next.brands?.length) q.set("brands", next.brands.join(","));
-      if (next.ratings?.length) q.set("ratings", next.ratings.join(","));
-      if (next.price?.length === 2)
-        q.set("price", `${next.price[0]}-${next.price[1]}`);
-      router.replace(`?${q.toString()}`);
-    };
 
     return (
       <div className="mt-[80px]">
