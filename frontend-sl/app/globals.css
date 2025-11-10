@@ -1,0 +1,278 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+/* Reset */
+html {
+  overflow-y: scroll;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* =====================================
+   🔹 GLOBAL ANIMATIONS
+   ===================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+@keyframes smoothAppear {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.animate-smoothAppear {
+  animation: smoothAppear 0.25s ease-out;
+}
+
+/* subtle slide-up used in menus or content load */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeSlideUp {
+  animation: fadeSlideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 6px rgba(168, 85, 247, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 14px rgba(168, 85, 247, 0.8);
+  }
+}
+.animate-pulse {
+  animation: glowPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease forwards;
+}
+.animate-fadeOut {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: rgb(239 68 68);
+  box-shadow: 0 0 0 1px rgb(239 68 68 / 40%);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Hide horizontal scrollbar (thumbnail strip) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* =====================================
+   🔹 SWIPER CUSTOMIZATION
+   ===================================== */
+
+/* Pagination Dots */
+.swiper-pagination {
+  bottom: 18px !important; /* slightly adjusted for all screen sizes */
+}
+
+.swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: #d1d5db;
+  opacity: 1;
+  transition: all 0.3s ease;
+  margin: 0 4px !important;
+  border-radius: 50%;
+}
+
+.swiper-pagination-bullet-active {
+  background: #e07d42 !important; /* your main brand color */
+  transform: scale(1.25);
+  box-shadow: 0 0 6px rgba(224, 125, 66, 0.6);
+}
+
+.swiper-pagination-bullet:hover {
+  background: #cf6a2a;
+}
+
+/* Navigation Arrows (hidden on small screens) */
+.swiper-button-prev,
+.swiper-button-next {
+  color: #e07d42 !important;
+  transition: all 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: flex !important;
+    opacity: 0.7;
+    pointer-events: auto;
+  }
+  .swiper-button-prev:hover,
+  .swiper-button-next:hover {
+    color: #cf6a2a;
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+/* Pagination dots */
+.swiper-pagination {
+  bottom: 20px !important;
+}
+
+.swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: #d1d5db;
+  opacity: 1;
+  transition: all 0.3s ease;
+  margin: 0 4px !important;
+  border-radius: 50%;
+}
+
+.swiper-pagination-bullet-active {
+  background: #e07d42 !important; /* main brand color */
+  transform: scale(1.25);
+  box-shadow: 0 0 6px rgba(224, 125, 66, 0.6);
+}
+
+.swiper-pagination-bullet:hover {
+  background: #cf6a2a;
+}
+
+/* Navigation arrows (hidden on mobile) */
+.swiper-button-prev,
+.swiper-button-next {
+  color: #e07d42 !important;
+  transition: all 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: flex !important;
+    opacity: 0.7;
+    pointer-events: auto;
+  }
+  .swiper-button-prev:hover,
+  .swiper-button-next:hover {
+    color: #cf6a2a;
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+/* =====================================
+   🔹 FEATURED PRODUCTS CUSTOM NAV
+   ===================================== */
+
+.featured-products-swiper {
+  position: relative;
+  overflow: hidden;
+}
+
+.featured-products-swiper .swiper-wrapper {
+  padding: 0 10px;
+}
+
+/* Hide default Swiper arrows completely */
+.featured-products-swiper .swiper-button-prev,
+.featured-products-swiper .swiper-button-next {
+  display: none !important;
+}
+
+/* =====================================
+   🔹 HEADER OFFSET (for fixed header)
+   ===================================== */
+
+/* Prevent banner overlap under fixed header */
+body {
+  padding-top: 120px; /* adjust if your header height changes */
+  background-color: var(--background);
+  color: var(--foreground);
+  scroll-behavior: smooth;
+}
+
+/* =====================================
+   🔹 UTILITY HELPERS
+   ===================================== */
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
